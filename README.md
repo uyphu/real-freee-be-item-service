@@ -51,19 +51,28 @@ The **Item Service** is a Spring Boot microservice in the REAL FREEE platform th
 ```bash
 git clone https://github.com/your-org/item-service.git
 cd item-service
-
+```
 ### ⚙️ Setup Database
+
 Create a PostgreSQL database:
 
-
+```sql
 CREATE DATABASE item_db;
+```
 Or use Docker:
+```bash
+docker run -d --name item-db \
+  -e POSTGRES_DB=item_db \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -p 5432:5432 postgres:15
 
-docker run -d --name item-db -e POSTGRES_DB=item_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 postgres:15
+```
 ### 🧪 Run the App
-
+```bash
 ./mvnw spring-boot:run
-App will start at:
+```
+The app will be available at:
 http://localhost:8081
 
 ### 📄 API Endpoints
@@ -74,43 +83,6 @@ GET	/api/items	List all items
 GET	/api/items/{id}	Get item by ID
 PATCH	/api/items/{id}/collect	Mark item as collected
 DELETE	/api/items/{id}	Delete item
-🔄 Integration with Gateway
-To route via gateway:
 
-yaml
-Copy
-Edit
-- id: item-service
-  uri: http://localhost:8081
-  predicates:
-    - Path=/item-service/api/**
-  filters:
-    - RewritePath=/item-service/api/(?<remaining>.*), /api/${remaining}
-Request example:
-
-
-GET http://localhost:8080/item-service/api/items
-### 🧪 Running Tests
-
-./mvnw test
-🛠️ Configuration
-Update settings in src/main/resources/application.yml:
-
-yaml
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/item_db
-    username: postgres
-    password: postgres
-Liquibase changelogs are under:
-src/main/resources/db/changelog/
-
-### 🧰 Useful Commands
-Build: ./mvnw clean install
-
-Run: ./mvnw spring-boot:run
-
-Format: ./mvnw spotless:apply (if configured)
-
-### 📬 Contact
-Maintainer: Phu Le
+### Contact
+Phu Le
